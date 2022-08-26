@@ -1,0 +1,25 @@
+from brownie import FundMe, accounts
+from scripts.helpful_scripts import get_account
+
+
+def fund():
+    # <-- We use this in order to get a contract instance and not deploy again
+    # the contract but using contracts already displayed
+    fund_me = FundMe[-1]
+    account = get_account()
+    entrance_fee = fund_me.getEntranceFee()
+    print(entrance_fee)
+    print("...funding")
+    fund_me.fund({"from": account, "value": entrance_fee})
+
+
+def withdraw():
+    fund_me = FundMe[-1]  # ultima instancia, ultimo deploy de FundMe
+    account = get_account()
+    print("withdrawing")
+    fund_me.withdraw({"from": account})
+
+
+def main():
+    fund()
+    withdraw()
